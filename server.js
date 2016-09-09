@@ -129,8 +129,6 @@ app.get('/newpin', function(req, res) {
 // adds a new pin
 app.post('/new-pin', function(req, res) {
 
-	console.log(req.body);
-
 	// if the user is authenticated and the form has data, save the pin
 	if(req.session.hasOwnProperty('userInfo') && req.body) {
 		Pin.create({ url: req.body.url, title: req.body.title, username: req.session.userInfo['screen_name'] }, function(err) {
@@ -147,6 +145,17 @@ app.post('/new-pin', function(req, res) {
 
 // gets the current user's pins
 app.get('/mypins', function(req, res) {
+
+	// if the user is authenticated, retreive and display their pins
+	if(req.session.hasOwnProperty('userInfo')) {
+		Pin.find({ username: req.session.userInfo['screen_name'] }, function(err, pins) {
+			if(err) {
+				console.log(err);
+			} else {
+				res.render('pins.ejs', {userInfo: req.session.userInfo, pins: pins})
+			}
+		})
+	}
 
 });
 
