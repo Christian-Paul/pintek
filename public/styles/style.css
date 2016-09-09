@@ -203,4 +203,8 @@ html, body {
       flex: 1;
       width: 100%; }
 
+.pin-img {
+  height: 2em;
+  width: 2em; }
+
 /*# sourceMappingURL=style.css.map */
