@@ -3,6 +3,7 @@ var app = express();
 var path = require('path');
 var mongoose = require('mongoose');
 var Twitter = require('node-twitter-api');
+var bodyParser = require('body-parser');
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
 require('express-helpers')(app);
@@ -36,6 +37,7 @@ var sessionOptions = {
 // middleware
 app.use(session(sessionOptions));
 app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({extended: true}));
 
 
 // twitter oAuth setup
@@ -99,7 +101,15 @@ app.get('/sign-out', function(req, res) {
 
 // database setup
 mongoose.connect('mongodb://' + config.mongooseUsername + ':' + config.mongoosePassword + '@ds029106.mlab.com:29106/pintek');
+var Schema = mongoose.Schema;
 
+var pinSchema = new Schema({
+	url: String,
+	username: String,
+	title: String
+});
+
+var Pin = mongoose.model('Pin', pinSchema);
 
 // begin app
 app.listen(port, function(req, res) {
@@ -111,6 +121,29 @@ app.get('/', function(req, res) {
 	res.render('index.ejs', {userInfo: req.session.userInfo});
 });
 
+// new pin page
+app.get('/newpin', function(req, res) {
+	res.render('newpin.ejs', {userInfo: req.session.userInfo});
+});
+
+// adds a new pin
+app.post('/new-pin', function(req, res) {
+
+	console.log(req.body);
+
+	// if the user is authenticated and the form has data, save the pin
+	if(req.session.hasOwnProperty('userInfo') && req.body) {
+		Pin.create({ url: req.body.url, title: req.body.title, username: req.session.userInfo['screen_name'] }, function(err) {
+			if(err) {
+				console.log(err);
+			} else {
+				// after pin is saved, redirect to index
+				res.redirect('/');
+			}
+		})
+	}
+
+});
 
 // gets the current user's pins
 app.get('/mypins', function(req, res) {
