@@ -155,11 +155,12 @@ app.get('/mypins', function(req, res) {
 
 	// if the user is authenticated, retreive and display their pins
 	if(req.session.hasOwnProperty('userInfo')) {
-		Pin.find({ username: req.session.userInfo['screen_name'] }, function(err, pins) {
+		var username = req.session.userInfo['screen_name'];
+		Pin.find({ username: username }, function(err, pins) {
 			if(err) {
 				console.log(err);
 			} else {
-				res.render('pins.ejs', {userInfo: req.session.userInfo, pins: pins})
+				res.render('pins.ejs', {userInfo: req.session.userInfo, pins: pins, pinsAuthor: username })
 			}
 		})
 	}
@@ -169,6 +170,15 @@ app.get('/mypins', function(req, res) {
 // gets a user's pins by username
 app.get('/userpins/:tagId', function(req, res) {
 
+	var username = req.params.tagId;
+
+	Pin.find({ username: username }, function(err, pins) {
+		if(err) {
+			console.log(err);
+		} else {
+			res.render('pins.ejs', {userInfo: req.session.userInfo, pins: pins, pinsAuthor: username })
+		}
+	})
 });
 
 
@@ -176,15 +186,13 @@ app.get('/userpins/:tagId', function(req, res) {
 app.get('/delete-pin/:tagId', function(req, res) {
 
 	// if the pin belongs to the current authenticated user, delete pin
-	if(true) {
-		Pin.findOneAndRemove( { _id: req.params.tagId, username: req.session.userInfo['screen_name'] } , function(err) {
-			if(err) {
-				console.log(err);
-			} else {
-				// redirect to user's polls
-				res.redirect('/mypins');
-			}
-		})
-	}
+	Pin.findOneAndRemove( { _id: req.params.tagId, username: req.session.userInfo['screen_name'] } , function(err) {
+		if(err) {
+			console.log(err);
+		} else {
+			// redirect to user's polls
+			res.redirect('/mypins');
+		}
+	})
 
 });
