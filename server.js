@@ -106,6 +106,24 @@ app.listen(port, function(req, res) {
 	console.log('listening on 3000');
 });
 
+// index page queries database for recent pins and sends them to client
 app.get('/', function(req, res) {
 	res.render('index.ejs', {userInfo: req.session.userInfo});
+});
+
+
+// gets the current user's pins
+app.get('/mypins', function(req, res) {
+
+});
+
+// gets a user's pins by username
+app.get('/userpins/:tagId', function(req, res) {
+
+});
+
+
+// deletes a pin
+app.get('/delete-pin/:tagId', function(req, res) {
+
 });
