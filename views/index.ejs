@@ -16,7 +16,16 @@
 			</div>
 
 			<div class='main-container'>
-				
+				<div class="title">Here are some recent pins</div>
+				<div class="pins-holder">
+					<% for(var i = 0; i < pins.length; i++) { %>
+						<div class="pin">
+							<div class="pin-title"> <%- pins[i].title %> </div>
+							<div class="pin-url"> <%- pins[i].url %> </div>
+							<div class="pin-user"> <%- pins[i].username %> </div>
+						</div>
+					<% } %>
+				</div>
 			</div>
 
 			<footer>

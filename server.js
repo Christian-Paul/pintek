@@ -118,7 +118,14 @@ app.listen(port, function(req, res) {
 
 // index page queries database for recent pins and sends them to client
 app.get('/', function(req, res) {
-	res.render('index.ejs', {userInfo: req.session.userInfo});
+
+	Pin.find({}, function(err, pins) {
+		if(err) {
+			console.log(err);
+		} else {
+			res.render('index.ejs', {userInfo: req.session.userInfo, pins: pins})
+		}
+	})
 });
 
 // new pin page
@@ -167,5 +174,17 @@ app.get('/userpins/:tagId', function(req, res) {
 
 // deletes a pin
 app.get('/delete-pin/:tagId', function(req, res) {
+
+	// if the pin belongs to the current authenticated user, delete pin
+	if(true) {
+		Pin.findOneAndRemove( { _id: req.params.tagId, username: req.session.userInfo['screen_name'] } , function(err) {
+			if(err) {
+				console.log(err);
+			} else {
+				// redirect to user's polls
+				res.redirect('/mypins');
+			}
+		})
+	}
 
 });
