@@ -22,7 +22,7 @@
 						<div class="pin">
 							<div class="pin-title"> <%- pins[i].title %> </div>
 							<div class="pin-url"> <%- pins[i].url %> </div>
-							<div class="pin-user"> <%- pins[i].username %> </div>
+							<a href=<%- 'userpins/' + pins[i].username %> class="pin-user"> <%- pins[i].username %> </a>
 							<% if(pins[i].username === userInfo['screen_name']) { %>
 								<a href=<%- 'delete-pin/' + pins[i]['_id'] %> class="delete">Delete Pin</a>
 							<% } %>
