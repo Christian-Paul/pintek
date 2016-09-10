@@ -202,9 +202,24 @@ html, body {
       margin-top: 8rem;
       flex: 1;
       width: 100%; }
-
-.pin-img {
-  height: 2em;
-  width: 2em; }
+      html .background .main-container .grid, body .background .main-container .grid {
+        width: 80%;
+        max-width: 1200px; }
+        html .background .main-container .grid .grid-item, body .background .main-container .grid .grid-item {
+          height: 200px;
+          width: 200px;
+          display: inline-block;
+          border: 2px solid rgba(0, 0, 0, 0.5);
+          border-radius: 2px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 15px; }
+          html .background .main-container .grid .grid-item .pin-img, body .background .main-container .grid .grid-item .pin-img {
+            max-width: 100%;
+            max-height: 80%; }
+          html .background .main-container .grid .grid-item:nth-child(3n), body .background .main-container .grid .grid-item:nth-child(3n) {
+            height: 300px; }
 
 /*# sourceMappingURL=style.css.map */

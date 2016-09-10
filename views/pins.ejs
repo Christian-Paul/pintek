@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title>Pintek | <%- userInfo['screen_name'] %>'s polls</title>
+		<title>Pintek | <%- pinsAuthor %>'s polls</title>
 		<link href="https://fonts.googleapis.com/css?family=Roboto:700,500,400,300,100|Comfortaa" rel="stylesheet">
 		<link rel='stylesheet' type='text/css' href='../public/styles/style.css'>
     	<link rel="icon" href='../public/images/pin.png'>
@@ -17,13 +17,13 @@
 
 			<div class='main-container'>
 				<div class="title">Here are <%- pinsAuthor %>'s pins</div>
-				<div class="pins-holder">
+				<div class="grid">
 					<% for(var i = 0; i < pins.length; i++) { %>
-						<div class="pin">
+						<div class="grid-item">
+							<img class="pin-img" src=<%- pins[i].url %> onerror='this.onerror=null;this.src="./public/images/unavailable.png"'>
 							<div class="pin-title"> <%- pins[i].title %> </div>
-							<img class="pin-img" src=<%- pins[i].url %>>
 							<a href=<%- 'userpins/' + pins[i].username %> class="pin-user"> <%- pins[i].username %> </a>
-							<% if(pins[i].username === userInfo['screen_name']) { %>
+							<% if(userInfo && pins[i].username === userInfo['screen_name']) { %>
 								<a href=<%- 'delete-pin/' + pins[i]['_id'] %> class="delete">Delete Pin</a>
 							<% } %>
 						</div>
@@ -35,7 +35,11 @@
 				<% include ./partials/footer %>
 			</footer>
 		</div>
+
 		<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+		<script src="https://unpkg.com/masonry-layout@4.1/dist/masonry.pkgd.min.js"></script>
+		<script src="https://npmcdn.com/imagesloaded@4.1/imagesloaded.pkgd.min.js"></script>
 		<script src='../public/js/navbar.js'></script>
+		<script src='../public/js/script.js'></script>
 	</body>
 </html>
